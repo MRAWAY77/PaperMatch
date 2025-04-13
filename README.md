@@ -51,3 +51,11 @@ Studies have highlighted the challenges of information overload and disjointed r
 To empower researchers with a comprehensive and intelligent assistant that accelerates the research workflow, improves knowledge accessibility, and bridges the gap between academic findings and their societal impact.
 
 ---
+
+## 🙋 Support Personnel
+
+For any issues or inquiries, please contact the support personnel listed below:
+
+| Name           | Role              | Contact Email               |
+|----------------|-------------------|-----------------------------|
+| Alvin Wong     | Team Lead/AI Eng  | <alvinwongannying@gmail.com>|
