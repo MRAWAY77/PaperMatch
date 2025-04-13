@@ -56,6 +56,7 @@ To empower researchers with a comprehensive and intelligent assistant that accel
 
 For any issues or inquiries, please contact the support personnel listed below:
 
-| Name           | Role              | Contact Email               |
-|----------------|-------------------|-----------------------------|
-| Alvin Wong     | Team Lead/AI Eng  | <alvinwongannying@gmail.com>|
+| Name           | Role                   | Contact Email                 |
+|----------------|------------------------|-------------------------------|
+| Alvin Wong     | Team Lead/AI & SW Eng  | <alvinwongannying@gmail.com>  |
+| Bertrand Tan   | Member/AI Eng          | <bertrand.tanyj@gmail.com>    |
