@@ -1,0 +1,68 @@
+# Documents
+*.pdf
+*.doc
+*.docx
+*.odt
+*.rtf
+*.txt
+*.md
+*.tex
+
+# Spreadsheets and data
+*.csv
+*.tsv
+*.xls
+*.xlsx
+
+# JSON and XML
+*.json
+*.xml
+*.yaml
+*.yml
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.svg
+*.webp
+
+# Videos
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.flv
+*.wmv
+*.webm
+
+# Audio
+*.mp3
+*.wav
+*.aac
+*.ogg
+*.flac
+*.m4a
+
+# Other text-like formats
+*.log
+*.ini
+*.cfg
+*.toml
+*.text
+
+# Ignore all model checkpoint files
+*.ckpt
+*.pt
+*.h5
+*.pth
+*.tf
+*.tflite
+*.onnx
+*.pkl
+
+# Allow requirements.txt to be tracked
+!requirements.txt
