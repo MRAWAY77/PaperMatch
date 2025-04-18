@@ -12,8 +12,6 @@ from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from bs4 import BeautifulSoup
-from fpdf import FPDF
-import pdfkit
 
 # === Configuration ===
 download_dir = "B_papers"

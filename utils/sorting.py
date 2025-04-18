@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the CSV
-df = pd.read_csv("categorized_summary.csv")
+df = pd.read_csv("paper_summary.csv")
 
 # Ensure matched_keywords is treated as an integer
 df["matched_keywords"] = pd.to_numeric(df["matched_keywords"], errors="coerce").fillna(0).astype(int)
@@ -59,4 +59,47 @@ for category in summary["category"].unique():
   10 papers matched 2 unique keywords
   349 papers matched 1 unique keywords
 
+'''
+
+# Filter to keep only papers with 2 or more matched keywords
+filtered_df = df[df["matched_keywords"] >= 2]
+
+# Optional: Save or inspect the filtered results
+filtered_df.to_csv("filtered_2_or_more_keywords.csv", index=False)
+print(f"Total papers with 2 or more unique keywords: {len(filtered_df)}")
+
+'''
+  📁 Cybercrime and Digital Fraud
+    1 papers matched 13 unique keywords
+    1 papers matched 12 unique keywords
+    1 papers matched 11 unique keywords
+    2 papers matched 8 unique keywords
+    2 papers matched 7 unique keywords
+    1 papers matched 6 unique keywords
+    10 papers matched 5 unique keywords
+    15 papers matched 4 unique keywords
+    25 papers matched 3 unique keywords
+    67 papers matched 2 unique keywords
+
+  📁 Forensic Science and Criminal Investigation
+    1 papers matched 4 unique keywords
+    3 papers matched 3 unique keywords
+    9 papers matched 2 unique keywords
+
+  📁 Medical Fraud and Malpractice
+    1 papers matched 2 unique keywords
+
+  📁 Misinformation and Fake News
+    1 papers matched 8 unique keywords
+    3 papers matched 6 unique keywords
+    4 papers matched 5 unique keywords
+    4 papers matched 4 unique keywords
+    32 papers matched 3 unique keywords
+    82 papers matched 2 unique keywords
+
+  📁 Organised Crime and Drug Trafficking
+    2 papers matched 4 unique keywords
+    1 papers matched 3 unique keywords
+    10 papers matched 2 unique keywords
+  Total papers with 2 or more unique keywords: 278
 '''

@@ -54,3 +54,12 @@
 *.toml
 *.text
 
+# Ignore all model checkpoint files
+*.ckpt
+*.pt
+*.h5
+*.pth
+*.tf
+*.tflite
+*.onnx
+*.pkl

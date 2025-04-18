@@ -56,9 +56,9 @@ categories = {
     ]
 }
 
-raw_pdf_dir = "raw_papers"
-output_base_dir = "categorized_papers"
-output_csv = "categorized_summary.csv"
+raw_pdf_dir = "../../raw_papers"
+output_base_dir = "papers_categories"
+output_csv = "paper_summary.csv"
 
 # Create output folders
 os.makedirs(output_base_dir, exist_ok=True)
@@ -85,7 +85,7 @@ for pdf_path in tqdm(pdf_files):
 
         for cat, keywords in categories.items():
             match_count = sum(1 for kw in keywords if kw.lower() in text)
-            if match_count >= 1:
+            if match_count >= 2:
                 matched[cat] = match_count
 
         if matched:
