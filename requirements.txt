@@ -1,0 +1,15 @@
+
+pdfplumber
+numpy
+pandas
+tqdm
+bertopic
+scikit-learn
+umap-learn
+easyocr
+spacy
+fitz
+requests
+beautifulsoup4
+selenium
+pyppeteer

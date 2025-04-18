@@ -63,3 +63,6 @@
 *.tflite
 *.onnx
 *.pkl
+
+# Allow requirements.txt to be tracked
+!requirements.txt
