@@ -1,0 +1,35 @@
+{
+  "query": "provide me all the latest deepfake news and also deepfake research papers.",
+  "shaped_query": "You are categorizing a query to find the most suitable research topic.\nQuery: \"provide me all the latest deepfake news and also deepfake research papers.\"\nProvide a cleaned, neutral version suitable for topic classification.",
+  "classified_topic": "Misinformation_and_Fake_News",
+  "academic_embeddings_path": "/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics/Misinformation_and_Fake_News_cluster_embeddings.pt",
+  "news_embeddings_path": "/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news/Misinformation_and_Fake_News_cluster_embeddings.pt",
+  "top_academic_papers": [
+    {
+      "paper": "deepfake-detection_69.pdf",
+      "cluster": "cluster_-1"
+    },
+    {
+      "paper": "red-teaming_65.pdf",
+      "cluster": "cluster_0"
+    },
+    {
+      "paper": "open-domain-question-answering_74.pdf",
+      "cluster": "cluster_-1"
+    }
+  ],
+  "top_news_articles": [
+    {
+      "article": "20241124_BBCMisinformationR3_huge-deal-struck-but-is-it-enough-5-takeaways-from.txt",
+      "cluster": "D12"
+    },
+    {
+      "article": "20201023_BBCMisinformationR3_win-or-lose-trump-has-already-changed-the-world.txt",
+      "cluster": "D7"
+    },
+    {
+      "article": "20240928_CNAMisinformationR4_commentary-does-the-world-still-need-news-media.txt",
+      "cluster": "D2"
+    }
+  ]
+}

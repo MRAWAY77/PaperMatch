@@ -1,0 +1,35 @@
+{
+  "query": "Give me the latest fraud and crimes committed in 2025 and also good solutions that can handle fraud and prevent crimes from happening.",
+  "shaped_query": "You are categorizing a query to find the most suitable research topic.\nQuery: \"Give me the latest fraud and crimes committed in 2025 and also good solutions that can handle fraud and prevent crimes from happening.\"\nProvide a cleaned, neutral version suitable for topic classification.",
+  "classified_topic": "Cybercrime_and_Digital_Fraud",
+  "academic_embeddings_path": "/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics/Cybercrime_and_Digital_Fraud_cluster_embeddings.pt",
+  "news_embeddings_path": "/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news/Cybercrime_and_Digital_Fraud_cluster_embeddings.pt",
+  "top_academic_papers": [
+    {
+      "paper": "real-world-adversarial-attack_3.pdf",
+      "cluster": "cluster_0"
+    },
+    {
+      "paper": "backdoor-attack_82.pdf",
+      "cluster": "cluster_0"
+    },
+    {
+      "paper": "benchmarking_57.pdf",
+      "cluster": "cluster_12"
+    }
+  ],
+  "top_news_articles": [
+    {
+      "article": "20180516_BBCCybercrimeR3_east-africa-cracks-down-on-fake-news.txt",
+      "cluster": "A4"
+    },
+    {
+      "article": "20240628_CNNCybercrimeR5_the-auto-dealers-outage-has-been-hamstringing-car.txt",
+      "cluster": "A13"
+    },
+    {
+      "article": "20170731_BBCCybercrimeR3_how-to-catch-drones-flown-by-criminals.txt",
+      "cluster": "A6"
+    }
+  ]
+}

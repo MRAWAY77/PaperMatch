@@ -14,12 +14,6 @@
 *.xls
 *.xlsx
 
-# JSON and XML
-*.json
-*.xml
-*.yaml
-*.yml
-
 # Images
 *.png
 *.jpg
@@ -66,3 +60,6 @@
 
 # Allow requirements.txt to be tracked
 !requirements.txt
+!academic_papers.csv
+!Query/query_logs/*
+!Graph_Network/sim_score_graph_network.txt

@@ -13,3 +13,5 @@ requests
 beautifulsoup4
 selenium
 pyppeteer
+matplotlib
+spacy
