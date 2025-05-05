@@ -1,4 +1,3 @@
-
 pdfplumber
 numpy
 pandas
@@ -15,3 +14,7 @@ selenium
 pyppeteer
 matplotlib
 spacy
+reportlab
+glob2
+sentence-transformers
+requests
