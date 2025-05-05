@@ -139,7 +139,7 @@ def find_top_matches(query_embedding: torch.Tensor, embeddings: List[torch.Tenso
     # Return the names and clusters of the top_k matches
     return [(name, cluster) for _, name, cluster in top_results]
 
-def process_query(query: str):
+def process_query(query: str, result_callback=None):
     output_data = {
         "query": query,
         "shaped_query": "",
@@ -152,54 +152,57 @@ def process_query(query: str):
 
     shaped_query = shape_query_with_template(query)
     output_data["shaped_query"] = shaped_query
-    print("\n--- Shaped Query Template ---")
-    print(shaped_query)
+    result_message = "\n--- Shaped Query Template ---\n" + shaped_query
 
     classified_topic = keyword_classifier(query)
     output_data["classified_topic"] = classified_topic
-    print("\n--- Classified Topic ---")
-    print(classified_topic)
+    result_message += "\n--- Classified Topic ---\n" + classified_topic
 
     if classified_topic == "Unknown":
-        print("Sorry, your query does not match any known topic.")
+        result_message += "\nSorry, your query does not match any known topic."
         output_data["error"] = "Unknown topic"
     else:
-        # Define paths based on classified topic
-        academic_path = f"/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics/{classified_topic}_cluster_embeddings.pt"
-        news_path = f"/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news/{classified_topic}_cluster_embeddings.pt"
+        academic_path = f"/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics/{classified_topic}_cluster_embeddings.pt"
+        news_path = f"/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news/{classified_topic}_cluster_embeddings.pt"
         output_data["academic_embeddings_path"] = academic_path
         output_data["news_embeddings_path"] = news_path
 
-        print(f"\nLoading academic embeddings from: {academic_path}")
+        result_message += f"\n\nLoading academic embeddings from: {academic_path}"
         academic_embeddings, academic_names, academic_cluster = load_cluster_embeddings(academic_path)
 
-        print(f"Loading news embeddings from: {news_path}")
+        result_message += f"\nLoading news embeddings from: {news_path}"
         news_embeddings, news_names, news_cluster = load_cluster_embeddings(news_path)
 
-        # Encode the input query
         query_embedding = embedding_model.encode(query, convert_to_tensor=True)
 
-        # Find top matches
         top_papers = find_top_matches(query_embedding, academic_embeddings, academic_names, academic_cluster)
         top_articles = find_top_matches(query_embedding, news_embeddings, news_names, news_cluster)
 
-        print("\n--- Top 3 Academic Papers ---")
+        result_message += "\n--- Top 3 Academic Papers ---"
         for paper, cluster in top_papers:
-            print(f"Paper: {paper}, Cluster: {cluster}")
+            result_message += f"\nPaper: {paper}, Cluster: {cluster}"
             output_data["top_academic_papers"].append({"paper": paper, "cluster": cluster})
 
-        print("\n--- Top 3 News Articles ---")
+        result_message += "\n--- Top 3 News Articles ---"
         for article, cluster in top_articles:
-            print(f"Article: {article}, Cluster: {cluster}")
+            result_message += f"\nArticle: {article}, Cluster: {cluster}"
             output_data["top_news_articles"].append({"article": article, "cluster": cluster})
 
-    os.makedirs("query_logs", exist_ok=True)
+    os.makedirs("eval_logs", exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"query_logs/query_result_{classified_topic or 'unknown'}_{timestamp}.json"
+    filename = f"eval_logs/query_result_{classified_topic or 'unknown'}_{timestamp}.json"
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2)
 
-    print(f"\nQuery results saved to: {filename}")
+    result_message += f"\n\nQuery results saved to: {filename}"
+
+    print(result_message)
+
+    if result_callback:
+        try:
+            result_callback(result_message)
+        except Exception as e:
+            print(f"Error in result_callback: {e}")
 
 if __name__ == "__main__":
     start_time = datetime.now()

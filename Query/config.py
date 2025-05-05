@@ -1,13 +1,13 @@
 # Base directories
-NEWS_BASE_DIR = "/home/mraway/Desktop/src/NUS_ISS/Clustered_Articles/"
-ACAD_BASE_DIR = "/home/mraway/Desktop/src/NUS_ISS/PaperMatch/utils/Clusters"
+NEWS_BASE_DIR = "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/datasets/News_Clusters/"
+ACAD_BASE_DIR = "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/datasets/Academic_Clusters/"
 
-# Defaults – will be overridden in llm.py
-TOPIC = "Misinformation_and_Fake_News"
-ACADEMIC_CLUSTER = "cluster_-1"
-NEWS_CLUSTER = "C6"
+# Defaults None will be overridden in llm.py
+TOPIC = None
+ACADEMIC_CLUSTER = None
+NEWS_CLUSTER = None
 
-# Paths – will be rebuilt in llm.py
+# Paths None will be rebuilt in llm.py
 ACADEMIC_PARENT_DIR = None
 NEWS_PARENT_DIR = None
 CSV_PATH = None

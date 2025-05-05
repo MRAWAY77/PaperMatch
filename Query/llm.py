@@ -18,47 +18,48 @@ from datetime import datetime
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
-json_path = "query_logs/query_result_Organised_Crime_and_Drug_Trafficking_20250503_180555.json"
-with open(json_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
+def load_config_from_json(json_path):
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-# Override configuration dynamically
-config.query = data["query"]
-config.TOPIC = data["classified_topic"]
+    # Override configuration dynamically
+    config.query = data["query"]
+    config.TOPIC = data["classified_topic"]
 
-# Loop through all academic and news clusters
-config.ACADEMIC_CLUSTERS = list(dict.fromkeys([p["cluster"] for p in data["top_academic_papers"]]))
-config.NEWS_CLUSTERS = list(dict.fromkeys([a["cluster"] for a in data["top_news_articles"]]))
+    # Loop through all academic and news clusters
+    config.ACADEMIC_CLUSTERS = list(dict.fromkeys([p["cluster"] for p in data["top_academic_papers"]]))
+    config.NEWS_CLUSTERS = list(dict.fromkeys([a["cluster"] for a in data["top_news_articles"]]))
 
-# Rebuild directory paths for each academic cluster
-config.ACADEMIC_PARENT_DIRS = [
-    os.path.join(config.ACAD_BASE_DIR, config.TOPIC, cluster) for cluster in config.ACADEMIC_CLUSTERS
-]
+    # Rebuild directory paths for each academic cluster
+    config.ACADEMIC_PARENT_DIRS = [
+        os.path.join(config.ACAD_BASE_DIR, config.TOPIC, cluster) for cluster in config.ACADEMIC_CLUSTERS
+    ]
 
-# Rebuild directory paths for each news cluster
-config.NEWS_PARENT_DIRS = [
-    os.path.join(config.NEWS_BASE_DIR, config.TOPIC, cluster) for cluster in config.NEWS_CLUSTERS
-]
+    # Rebuild directory paths for each news cluster
+    config.NEWS_PARENT_DIRS = [
+        os.path.join(config.NEWS_BASE_DIR, config.TOPIC, cluster) for cluster in config.NEWS_CLUSTERS
+    ]
 
-# Get CSV paths for each academic cluster
-config.CSV_PATHS = [
-    glob.glob(os.path.join(academic_parent_dir, "*.csv"))[0] if glob.glob(os.path.join(academic_parent_dir, "*.csv")) else None
-    for academic_parent_dir in config.ACADEMIC_PARENT_DIRS
-]
+    # Get CSV paths for each academic cluster
+    config.CSV_PATHS = [
+        glob.glob(os.path.join(academic_parent_dir, "*.csv"))[0]
+        if glob.glob(os.path.join(academic_parent_dir, "*.csv")) else None
+        for academic_parent_dir in config.ACADEMIC_PARENT_DIRS
+    ]
 
-# Override query and top documents dynamically
-config.academic_papers = [p["paper"] for p in data["top_academic_papers"]]
-config.news_articles = [(a["cluster"], a["article"]) for a in data["top_news_articles"]]
+    # Override query and top documents dynamically
+    config.academic_papers = [p["paper"] for p in data["top_academic_papers"]]
+    config.news_articles = [(a["cluster"], a["article"]) for a in data["top_news_articles"]]
 
-# === Debug print to confirm config is loaded ===
-print("Loaded config:")
-print("QUERY:", config.query)
-print("TOPIC:", config.TOPIC)
-print("ACADEMIC_CLUSTERS:", config.ACADEMIC_CLUSTERS)
-print("NEWS_CLUSTERS:", config.NEWS_CLUSTERS)
-print("ACADEMIC_PAPERS:", config.academic_papers)
-print("NEWS_ARTICLES:", config.news_articles)
-print("ACADEMIC CSV PATHS:", config.CSV_PATHS)
+    # === Debug print to confirm config is loaded ===
+    print("Loaded config:")
+    print("QUERY:", config.query)
+    print("TOPIC:", config.TOPIC)
+    print("ACADEMIC_CLUSTERS:", config.ACADEMIC_CLUSTERS)
+    print("NEWS_CLUSTERS:", config.NEWS_CLUSTERS)
+    print("ACADEMIC_PAPERS:", config.academic_papers)
+    print("NEWS_ARTICLES:", config.news_articles)
+    print("ACADEMIC CSV PATHS:", config.CSV_PATHS)
 
 # === HELPERS ===
 
@@ -226,16 +227,25 @@ def generate_pdf_report(results, query, topic, pdf_path):
 
 # === MAIN RUN ===
 
-def main():
+def llm(report_callback=None):
     start_time = datetime.now()
     print(f"\nStart time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
+    # Look for the only JSON file in eval_logs/
+    json_files = glob.glob("eval_logs/*.json")
+    if len(json_files) != 1:
+        raise ValueError(f"Expected exactly one JSON file in eval_logs/, found: {len(json_files)}")
+    json_path = json_files[0]
+
+    # Load dynamic config from JSON
+    load_config_from_json(json_path)
+
+    # Prepare input documents
     academic_inputs = prepare_academic_inputs()
     news_inputs = prepare_news_inputs()
     all_docs = academic_inputs + news_inputs
 
     results = []
-
     for doc in all_docs:
         print(f"Processing: {doc['title']} ({doc['type']})")
         summary = send_to_llm(doc)
@@ -246,9 +256,10 @@ def main():
             "summary": summary
         })
 
+    # Generate PDF
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_filename = f"{config.TOPIC}_{timestamp}.pdf"
-    output_pdf = os.path.join("query_logs", output_filename)
+    output_pdf = os.path.join("eval_logs", output_filename)
     generate_pdf_report(results, config.query, config.TOPIC, output_pdf)
 
     end_time = datetime.now()
@@ -260,5 +271,12 @@ def main():
     print(f"Total time taken: {int(hours)}h {int(minutes)}m {int(seconds)}s")
     print(f"PDF report generated: {output_pdf}")
 
+    # Send PDF via callback
+    if report_callback:
+        try:
+            report_callback(output_pdf)
+        except Exception as e:
+            print(f"Error in report_callback: {e}")
+
 if __name__ == "__main__":
-    main()
+    llm(report_callback=None)
