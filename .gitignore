@@ -69,5 +69,5 @@ papermatch_session.session-journal
 # Allow requirements.txt to be tracked
 !requirements.txt
 !academic_papers.csv
-!Query/query_logs/*
+!Asset/*
 !Graph_Network/sim_score_graph_network.txt
