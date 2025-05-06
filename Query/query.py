@@ -141,6 +141,7 @@ def find_top_matches(query_embedding: torch.Tensor, embeddings: List[torch.Tenso
 
 def process_query(query: str, result_callback=None):
     output_data = {
+        "status": "new",
         "query": query,
         "shaped_query": "",
         "classified_topic": "",
@@ -167,10 +168,10 @@ def process_query(query: str, result_callback=None):
         output_data["academic_embeddings_path"] = academic_path
         output_data["news_embeddings_path"] = news_path
 
-        result_message += f"\n\nLoading academic embeddings from: {academic_path}"
+        # result_message += f"\n\nLoading academic embeddings from: {academic_path}"
         academic_embeddings, academic_names, academic_cluster = load_cluster_embeddings(academic_path)
 
-        result_message += f"\nLoading news embeddings from: {news_path}"
+        # result_message += f"\nLoading news embeddings from: {news_path}"
         news_embeddings, news_names, news_cluster = load_cluster_embeddings(news_path)
 
         query_embedding = embedding_model.encode(query, convert_to_tensor=True)

@@ -93,9 +93,9 @@ def generate_embeddings_from_folder(folder_path, save_path):
     return cluster_embeddings
 
 # Example usage
-folder_path = '/home/mraway/Downloads/Clustered_Articles/05 - Organised Crime & Drug Trafficking'
+folder_path = '/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/datasets/Academic_Clusters/Cybercrime_and_Digital_Fraud'
 name = folder_path.split("/")[-1]
-save_dir = '/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news'
+save_dir = '/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics'
 os.makedirs(save_dir, exist_ok=True)  # Create the directory if it doesn't exist
 save_path = os.path.join(save_dir, f'{name}_cluster_embeddings.pt')  # Full path to save .pt file
 generate_embeddings_from_folder(folder_path, save_path)

@@ -19,3 +19,10 @@ MODEL = "llama3"
 query = ""
 academic_papers = []
 news_articles = []
+
+IMAGE_A = '/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/Assets/MDDI_blend.jpg'
+
+api_id = 24612008
+api_hash = '563023b41e675ac0934415912c0f2fe7'
+phone_number = '+6593873799'  
+TARGET_CHANNEL = 'https://t.me/+n4ryVexqsAdhOGU9'

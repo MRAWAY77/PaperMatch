@@ -9,12 +9,15 @@ import string
 import easyocr
 import spacy
 import logging
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from datetime import datetime
+from PIL import Image
+import json
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
@@ -172,42 +175,53 @@ def send_to_llm(input_data):
     except Exception as e:
         return f"EXCEPTION: {str(e)}"
 
+# def merge_images_with_transparency(img1_path, output_path, alpha=0.2):
+#     img1 = Image.open(img1_path).convert("RGBA")
+#     white_bg = Image.new("RGBA", img1.size, (255, 255, 255, 255))
+#     blended = Image.blend(white_bg, img1, alpha=alpha)
+#     blended.save(output_path, format="PNG")
+
+def add_background(canvas, doc, img_path):
+    canvas.saveState()
+    canvas.drawImage(img_path, 0, 0, width=A4[0], height=A4[1], mask='auto')
+    canvas.restoreState()
+
 def generate_pdf_report(results, query, topic, pdf_path):
     doc = SimpleDocTemplate(pdf_path, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
     styles = getSampleStyleSheet()
     normal_style = styles["Normal"]
-    wrapped_style = ParagraphStyle(
-        name='WrappedStyle',
-        parent=normal_style,
-        fontSize=8,
-        leading=10
-    )
+    bold_style = ParagraphStyle(
+    name='BoldLarge',
+    parent=styles['Normal'],
+    fontName='Helvetica-Bold',
+    fontSize=10,
+    leading=12
+)
 
     story = []
-
-    # Title and query
     story.append(Paragraph(f"<b>Query:</b> {query}", normal_style))
     story.append(Spacer(1, 12))
     story.append(Paragraph(f"<b>Topic:</b> {topic}", normal_style))
     story.append(Spacer(1, 24))
 
-    # Table data with Paragraph-wrapped cells
+    # Table header
     table_data = [[
-        Paragraph("<b>Type</b>", wrapped_style),
-        Paragraph("<b>Title</b>", wrapped_style),
-        Paragraph("<b>URL</b>", wrapped_style),
-        Paragraph("<b>Summary</b>", wrapped_style)
+        Paragraph("<b>Type</b>", bold_style),
+        Paragraph("<b>Title</b>", bold_style),
+        Paragraph("<b>URL</b>", bold_style),
+        Paragraph("<b>Summary</b>", bold_style)
     ]]
 
+    # Table rows
     for item in results:
         table_data.append([
-            Paragraph(item["type"], wrapped_style),
-            Paragraph(item["title"], wrapped_style),
-            Paragraph(item["url"], wrapped_style),
-            Paragraph(item["summary"], wrapped_style)
+            Paragraph(item["type"], bold_style),
+            Paragraph(item["title"], bold_style),
+            Paragraph(item["url"], bold_style),
+            Paragraph(item["summary"], bold_style)
         ])
 
-    table = Table(table_data, colWidths=[1.0 * inch, 1.5 * inch, 2.5 * inch, 3.0 * inch])
+    table = Table(table_data, colWidths=[1.0 * inch, 1.5 * inch, 2.0 * inch, 3.5 * inch])
     table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
@@ -217,50 +231,103 @@ def generate_pdf_report(results, query, topic, pdf_path):
     story.append(table)
     story.append(Spacer(1, 24))
 
-    # Raw JSON output (optional)
+    # Raw JSON section
     story.append(Paragraph("<b>Raw JSON Output:</b>", styles["Heading3"]))
     json_dump = json.dumps(results, indent=2)
     for line in json_dump.splitlines():
-        story.append(Paragraph(f"<font size=6>{line}</font>", wrapped_style))
+        story.append(Paragraph(f"<font size=6>{line}</font>", bold_style))
 
-    doc.build(story)
+    # Build PDF with background
+    doc.build(
+        story,
+        onFirstPage=lambda c, d: add_background(c, d, config.IMAGE_A),
+        onLaterPages=lambda c, d: add_background(c, d, config.IMAGE_A)
+    )
 
 # === MAIN RUN ===
-
 def llm(report_callback=None):
     start_time = datetime.now()
     print(f"\nStart time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
-    # Look for the only JSON file in eval_logs/
+    # Look for all JSON files with status == "new"
     json_files = glob.glob("eval_logs/*.json")
-    if len(json_files) != 1:
-        raise ValueError(f"Expected exactly one JSON file in eval_logs/, found: {len(json_files)}")
-    json_path = json_files[0]
+    candidate_jsons = []
 
-    # Load dynamic config from JSON
-    load_config_from_json(json_path)
+    for file in json_files:
+        try:
+            with open(file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if data.get("status") == "new":
+                    candidate_jsons.append((file, os.path.getmtime(file)))
+        except Exception as e:
+            print(f"Skipping invalid JSON: {file} — {e}")
 
-    # Prepare input documents
-    academic_inputs = prepare_academic_inputs()
-    news_inputs = prepare_news_inputs()
-    all_docs = academic_inputs + news_inputs
+    if not candidate_jsons:
+        raise ValueError("No 'new' JSON files found in eval_logs/.")
 
-    results = []
-    for doc in all_docs:
-        print(f"Processing: {doc['title']} ({doc['type']})")
-        summary = send_to_llm(doc)
-        results.append({
-            "type": doc["type"],
-            "title": doc["title"],
-            "url": doc["url"],
-            "summary": summary
-        })
+    # Sort by most recent first
+    candidate_jsons.sort(key=lambda x: x[1], reverse=True)
 
-    # Generate PDF
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_filename = f"{config.TOPIC}_{timestamp}.pdf"
-    output_pdf = os.path.join("eval_logs", output_filename)
-    generate_pdf_report(results, config.query, config.TOPIC, output_pdf)
+    for json_path, _ in candidate_jsons:
+        print(f"\nProcessing JSON: {json_path}")
+
+        # Mark as 'processed'
+        try:
+            with open(json_path, 'r+', encoding='utf-8') as f:
+                data = json.load(f)
+                data['status'] = 'processed'
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+        except Exception as e:
+            print(f"Failed to mark as processed: {e}")
+            continue
+
+        try:
+            # Load config
+            load_config_from_json(json_path)
+
+            # Prepare input documents
+            academic_inputs = prepare_academic_inputs()
+            news_inputs = prepare_news_inputs()
+            all_docs = academic_inputs + news_inputs
+
+            results = []
+            for doc in all_docs:
+                print(f"Processing: {doc['title']} ({doc['type']})")
+                summary = send_to_llm(doc)
+                results.append({
+                    "type": doc["type"],
+                    "title": doc["title"],
+                    "url": doc["url"],
+                    "summary": summary
+                })
+
+            # Generate PDF
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_filename = f"{config.TOPIC}_{timestamp}.pdf"
+            output_pdf = os.path.join("eval_logs", output_filename)
+            generate_pdf_report(results, config.query, config.TOPIC, output_pdf)
+
+            # Mark JSON as 'completed'
+            with open(json_path, 'r+', encoding='utf-8') as f:
+                data = json.load(f)
+                data['status'] = 'completed'
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+            print(f"Marked as completed: {json_path}")
+
+            # Callback
+            if report_callback:
+                try:
+                    report_callback(output_pdf)
+                except Exception as e:
+                    print(f"Error in report_callback: {e}")
+
+        except Exception as e:
+            print(f"Error while processing {json_path}: {e}")
+            continue
 
     end_time = datetime.now()
     duration = end_time - start_time
@@ -269,14 +336,6 @@ def llm(report_callback=None):
 
     print(f"\nEnd time: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"Total time taken: {int(hours)}h {int(minutes)}m {int(seconds)}s")
-    print(f"PDF report generated: {output_pdf}")
-
-    # Send PDF via callback
-    if report_callback:
-        try:
-            report_callback(output_pdf)
-        except Exception as e:
-            print(f"Error in report_callback: {e}")
 
 if __name__ == "__main__":
     llm(report_callback=None)

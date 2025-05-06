@@ -58,6 +58,14 @@
 *.onnx
 *.pkl
 
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore Telethon session files
+papermatch_session.session
+papermatch_session.session-journal
+
 # Allow requirements.txt to be tracked
 !requirements.txt
 !academic_papers.csv

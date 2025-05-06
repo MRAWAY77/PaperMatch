@@ -3,20 +3,16 @@ from query import process_query
 import asyncio
 from llm import llm
 import os
+import config
 
-api_id = 24612008
-api_hash = '563023b41e675ac0934415912c0f2fe7'
-phone_number = '+6593873799'  
-TARGET_CHANNEL = 'https://t.me/+n4ryVexqsAdhOGU9'
-
-client = TelegramClient('papermatch_session', api_id, api_hash)
+client = TelegramClient('papermatch_session', config.api_id, config.api_hash)
 
 async def send_document_to_telegram(file_path):
     """
     Sends a document (PDF) to the Telegram channel and cleans up .json files afterward.
     """
     try:
-        await client.send_file(TARGET_CHANNEL, file_path, caption="📄 Here is your PDF report.")
+        await client.send_file(config.TARGET_CHANNEL, file_path, caption="📄 Here is your PDF report.")
         print("✅ PDF sent to Telegram channel.")
     except Exception as e:
         print(f"❌ Failed to send PDF: {e}")
@@ -38,7 +34,7 @@ async def send_to_telegram_channel(message: str):
     Sends a text message to the configured Telegram channel.
     """
     try:
-        await client.send_message(TARGET_CHANNEL, message)
+        await client.send_message(config.TARGET_CHANNEL, message)
         print("✅ Sent result to Telegram channel.")
     except Exception as e:
         print(f"❌ Failed to send message to channel: {e}")
@@ -77,14 +73,18 @@ async def handle_message(event):
         # Run processing in background thread
         def process():
             process_query(query, result_callback=result_callback)
+            asyncio.run_coroutine_threadsafe(
+                event.reply(f"✅ {user.first_name}, Given the selected papers and news article, we are generating the report for you now."),
+                loop
+            )
             llm(report_callback=report_callback)
 
         await loop.run_in_executor(None, process)
 
         await event.reply(f"✅ {user.first_name}, your query has been processed. Please review the output in the report.")
-        
+
 async def main():
-    await client.start(phone=phone_number)
+    await client.start(phone=config.phone_number)
     print("User client is running. Listening for /ask messages...")
     await client.run_until_disconnected()
 
