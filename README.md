@@ -151,6 +151,20 @@ Start the Telegram-integrated query interface:
 python query/main.py
 ```
 
+Once the script is running and connected to your Telegram group, interact with the bot using the following command:
+
+📩  Send this in your Telegram group:
+
+/ask \[your query here]
+
+This command triggers the AI pipeline, which retrieves relevant academic papers, summarizes them, matches media coverage, and generates a contextualized PDF report directly in your Telegram chat.
+
+Example:
+
+/ask What are the latest Deepfake trends?
+
+This will generate an AI-enhanced academic-media insight report based on your query.
+
 ---
 
 ### 📄 6. Sample Output Report
