@@ -27,7 +27,7 @@ Backed by insights from academic research on information behavior and media fram
 
 ## 🏗️ System Architecture & Demo
 
-![System Architecture](assets/architecture.png)
+![System Architecture](assets/arhitecture.png)
 
 🎥 [Watch the Demo](https://youtu.be/Pukb5Xa0ToQ)
 
