@@ -70,4 +70,5 @@ papermatch_session.session-journal
 !requirements.txt
 !academic_papers.csv
 !assets/*
-!Graph_Network/sim_score_graph_network.txt
+!graph_network/sim_score_graph_network.txt
+!project_report/*
