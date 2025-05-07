@@ -1,0 +1,11 @@
+{
+  "status": "new",
+  "query": "welcome to nus iss",
+  "shaped_query": "You are categorizing a query to find the most suitable research topic.\nQuery: \"welcome to nus iss\"\nProvide a cleaned, neutral version suitable for topic classification.",
+  "classified_topic": "Unknown",
+  "academic_embeddings_path": "",
+  "news_embeddings_path": "",
+  "top_academic_papers": [],
+  "top_news_articles": [],
+  "error": "Unknown topic"
+}
