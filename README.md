@@ -21,7 +21,7 @@ Backed by insights from academic research on information behavior and media fram
 | Name                | Student ID | Contributions                                                                                                |
 | ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------ |
 | Alvin Wong Ann Ying | A0266486M  | Project lead, academic scraping, graph/embedding pipeline, LLM summarization, Telegram API, code integration |
-| Bertrand Tan        | A0292314J  | News scraping, clustering for media content, evaluation framework                                            |
+| Bertrand Tan Yu-Jin | A0292314J  | News scraping, clustering for media content, evaluation framework                                            |
 
 ---
 
