@@ -1,0 +1,36 @@
+{
+    "status": "completed",
+    "query": "what are the latest deepfake and scams news happening ?",
+    "shaped_query": "You are categorizing a query to find the most suitable research topic.\nQuery: \"what are the latest deepfake and scams news happening ?\"\nProvide a cleaned, neutral version suitable for topic classification.",
+    "classified_topic": "Misinformation_and_Fake_News",
+    "academic_embeddings_path": "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/academics/Misinformation_and_Fake_News_cluster_embeddings.pt",
+    "news_embeddings_path": "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/news/Misinformation_and_Fake_News_cluster_embeddings.pt",
+    "top_academic_papers": [
+        {
+            "paper": "open-domain-question-answering_74.pdf",
+            "cluster": "cluster_-1"
+        },
+        {
+            "paper": "data-poisoning_74.pdf",
+            "cluster": "cluster_13"
+        },
+        {
+            "paper": "open-domain-question-answering_97.pdf",
+            "cluster": "cluster_13"
+        }
+    ],
+    "top_news_articles": [
+        {
+            "article": "20240830_CNAMisinformationR5_lessons-for-singapore-from-recent-riots-in-uk-fuel.txt",
+            "cluster": "D2"
+        },
+        {
+            "article": "20241022_StraitsMisinformationR3_media-literacy-key-as-blocked-fake-news-sites-can.txt",
+            "cluster": "D2"
+        },
+        {
+            "article": "20240928_CNAMisinformationR4_commentary-does-the-world-still-need-news-media.txt",
+            "cluster": "D2"
+        }
+    ]
+}

@@ -4,7 +4,7 @@
 
 ## 🚀 Executive Summary
 
-PaperMatch is an AI-driven platform designed to streamline the process of discovering academic research and interpreting media narratives around key topics.
+PaperMatch is an AI-driven solution designed to streamline the process of discovering academic research and interpreting media narratives around key topics.
 
 With the exponential rise in scholarly publications and fragmented media coverage, researchers face information overload and lack tools that connect academic rigor with real-world discourse. PaperMatch bridges that gap by offering:
 
@@ -29,7 +29,7 @@ Backed by insights from academic research on information behavior and media fram
 
 ![System Architecture](assets/architecture.png)
 
-🎥 [Watch the Demo](https://youtu.be/Pukb5Xa0ToQ)
+[![Watch the Demo](assets/demo_thumbnail.png)](https://youtu.be/XR6L77UH7MY)
 
 ---
 

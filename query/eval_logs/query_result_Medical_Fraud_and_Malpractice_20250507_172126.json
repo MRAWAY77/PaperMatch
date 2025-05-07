@@ -1,0 +1,36 @@
+{
+    "status": "completed",
+    "query": "What are the some of the latest fraud cases that is happening? Any solution to prevent it?",
+    "shaped_query": "You are categorizing a query to find the most suitable research topic.\nQuery: \"What are the some of the latest fraud cases that is happening? Any solution to prevent it?\"\nProvide a cleaned, neutral version suitable for topic classification.",
+    "classified_topic": "Medical_Fraud_and_Malpractice",
+    "academic_embeddings_path": "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/academics/Medical_Fraud_and_Malpractice_cluster_embeddings.pt",
+    "news_embeddings_path": "/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/news/Medical_Fraud_and_Malpractice_cluster_embeddings.pt",
+    "top_academic_papers": [
+        {
+            "paper": "red-teaming_36.pdf",
+            "cluster": "cluster_0"
+        },
+        {
+            "paper": "red-teaming_41.pdf",
+            "cluster": "cluster_0"
+        },
+        {
+            "paper": "llm-jailbreak_8.pdf",
+            "cluster": "cluster_0"
+        }
+    ],
+    "top_news_articles": [
+        {
+            "article": "20200420_BBCMedicalFraudR3_uk-forces-hundreds-of-scam-covid-19-shops-offline.txt",
+            "cluster": "C1"
+        },
+        {
+            "article": "20230211_CNAMedicalFraudR3_commentary-scam-victims-are-the-first-to-judge-the.txt",
+            "cluster": "C1"
+        },
+        {
+            "article": "20161101_StraitsMedicalFraudR5_cj-seeks-to-ease-doctors-fears-of-malpractice-suit.txt",
+            "cluster": "C6"
+        }
+    ]
+}
