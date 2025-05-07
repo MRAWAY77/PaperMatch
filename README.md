@@ -27,7 +27,7 @@ Backed by insights from academic research on information behavior and media fram
 
 ## 🏗️ System Architecture & Demo
 
-![System Architecture](assets/arhitecture.png)
+![System Architecture](assets/architecture.png)
 
 🎥 [Watch the Demo](https://youtu.be/Pukb5Xa0ToQ)
 
@@ -35,9 +35,7 @@ Backed by insights from academic research on information behavior and media fram
 
 ## 📘 User Guide
 
-See Appendix 7.4 in the Project Report on GitHub for the full installation guide.
-
-🛠️ Supported OS: Ubuntu 20.04 / 22.04
+🛠️ Supported OS: Ubuntu 24.04
 
 ---
 
