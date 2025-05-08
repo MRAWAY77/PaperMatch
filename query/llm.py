@@ -10,14 +10,11 @@ import easyocr
 import spacy
 import logging
 from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
+from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle)
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
+from reportlab.lib import colors
 from datetime import datetime
-from PIL import Image
-import json
 
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
 
@@ -152,7 +149,18 @@ def prepare_news_inputs():
 def send_to_llm(input_data):
     payload = {
         "model": config.MODEL,
-        "prompt": f"Summarize this document:\n\n{input_data['content']}"
+        "prompt": f"""Summarize the following text by extracting and paraphrasing only the core information and key concepts in a single paragraph, limited to 100 words.
+            Strict formatting rules:
+            - Do not include rhetorical questions.
+            - Remove all conversational or reflective phrases (e.g., "Let's break down...", "Do you want to...").
+            - Do not include any introductory or closing remarks.
+            - Write in a neutral, academic tone.
+            - Present all key methods, terms, and examples clearly and concisely in paragraph form (no bullet points).
+            - Keep the summarize short and limit to 100 words.
+
+            Document:
+            \"\"\"{input_data['content']}\"\"\"
+            """
     }
     try:
         response = requests.post(config.OLLAMA_URL, json=payload, stream=True)
@@ -175,69 +183,67 @@ def send_to_llm(input_data):
     except Exception as e:
         return f"EXCEPTION: {str(e)}"
 
-# def merge_images_with_transparency(img1_path, output_path, alpha=0.2):
-#     img1 = Image.open(img1_path).convert("RGBA")
-#     white_bg = Image.new("RGBA", img1.size, (255, 255, 255, 255))
-#     blended = Image.blend(white_bg, img1, alpha=alpha)
-#     blended.save(output_path, format="PNG")
-
 def add_background(canvas, doc, img_path):
     canvas.saveState()
     canvas.drawImage(img_path, 0, 0, width=A4[0], height=A4[1], mask='auto')
     canvas.restoreState()
 
 def generate_pdf_report(results, query, topic, pdf_path):
-    doc = SimpleDocTemplate(pdf_path, pagesize=A4, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
+    doc = SimpleDocTemplate(
+        pdf_path,
+        pagesize=A4,
+        rightMargin=30, leftMargin=30,
+        topMargin=30, bottomMargin=30
+    )
+
     styles = getSampleStyleSheet()
     normal_style = styles["Normal"]
-    bold_style = ParagraphStyle(
-    name='BoldLarge',
-    parent=styles['Normal'],
-    fontName='Helvetica-Bold',
-    fontSize=10,
-    leading=12
-)
+    key_style = ParagraphStyle(
+        name="KeyStyle",
+        parent=styles["Normal"],
+        fontName="Helvetica-Bold",
+        fontSize=10,
+        underline=True
+    )
 
     story = []
-    story.append(Paragraph(f"<b>Query:</b> {query}", normal_style))
+
+    # Query and Topic
+    story.append(Paragraph(f"<u><b>Query:</b></u> {query}", normal_style))
     story.append(Spacer(1, 12))
-    story.append(Paragraph(f"<b>Topic:</b> {topic}", normal_style))
+    story.append(Paragraph(f"<u><b>Topic:</b></u> {topic}", normal_style))
     story.append(Spacer(1, 24))
 
-    # Table header
-    table_data = [[
-        Paragraph("<b>Type</b>", bold_style),
-        Paragraph("<b>Title</b>", bold_style),
-        Paragraph("<b>URL</b>", bold_style),
-        Paragraph("<b>Summary</b>", bold_style)
-    ]]
-
-    # Table rows
+    # Each result
     for item in results:
-        table_data.append([
-            Paragraph(item["type"], bold_style),
-            Paragraph(item["title"], bold_style),
-            Paragraph(item["url"], bold_style),
-            Paragraph(item["summary"], bold_style)
-        ])
+        story.append(Paragraph(f"<u><b>Type:</b></u> {item['type']}", normal_style))
+        story.append(Paragraph(f"<u><b>Title:</b></u> {item['title']}", normal_style))
+        story.append(Paragraph(f"<u><b>URL:</b></u> {item['url']}", normal_style))
+        story.append(Spacer(1, 6))
+        story.append(Paragraph("<u><b>Summary:</b></u>", normal_style))
 
-    table = Table(table_data, colWidths=[1.0 * inch, 1.5 * inch, 2.0 * inch, 3.5 * inch])
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-    ]))
+        # Ensure that long summaries wrap within the cell by using Paragraph
+        summary_paragraph = Paragraph(item["summary"], normal_style)
 
-    story.append(table)
-    story.append(Spacer(1, 24))
+        # Text box for summary using a one-cell table with wrapping text
+        summary_box = Table(
+            [[summary_paragraph]],
+            colWidths=[6.5 * inch]  # Adjust the column width as necessary
+        )
+        
+        summary_box.setStyle(TableStyle([
+            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+            ('LEFTPADDING', (0, 0), (-1, -1), 6),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
+            ('TOPPADDING', (0, 0), (-1, -1), 6),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+            ('WORDWRAP', (0, 0), (-1, -1), True)  # Allow text to wrap within the cell
+        ]))
+        story.append(summary_box)
+        story.append(Spacer(1, 24))
 
-    # Raw JSON section
-    story.append(Paragraph("<b>Raw JSON Output:</b>", styles["Heading3"]))
-    json_dump = json.dumps(results, indent=2)
-    for line in json_dump.splitlines():
-        story.append(Paragraph(f"<font size=6>{line}</font>", bold_style))
-
-    # Build PDF with background
+    # Build PDF
     doc.build(
         story,
         onFirstPage=lambda c, d: add_background(c, d, config.IMAGE_A),
