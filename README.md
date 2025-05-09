@@ -102,6 +102,9 @@ papermatch/
 │   ├── cluster_embeddings.py
 │   ├── output_graphs/
 │   └── sim_score_graph_network.txt
+├── eval/
+│   ├── eval_summaries.py
+│   ├── query_eval.py
 ├── query/
 │   ├── config.py
 │   ├── llm.py
