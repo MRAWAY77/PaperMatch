@@ -75,3 +75,4 @@ papermatch_session.session-journal
 !project_report/*
 !eval/README.md
 !scrapers/news_webscraper/README.md
+!scrapers/news_webscraper/assets/*
