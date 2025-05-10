@@ -1,4 +1,4 @@
-# 📘 PaperMatch: AI-Enhanced Insights for Academic & Media Discovery via Telegram API
+# 📘 PaperMatch: AI-Enhanced Insights for Academic & Media Discovery via Telegram
 
 ![PaperMatch Telegram Example](assets/telegram.png)
 
@@ -20,8 +20,8 @@ Backed by insights from academic research on information behavior and media fram
 
 | Name                | Student ID | Contributions                                                                                                |
 | ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------ |
-| Alvin Wong Ann Ying | A0266486M  | Project lead, academic scraping, graph/embedding pipeline, LLM summarization, Telegram API, code integration |
-| Bertrand Tan Yu-Jin | A0292314J  | News scraping, clustering for media content, evaluation framework                                            |
+| Alvin Wong Ann Ying | A0266486M  | Project lead, academic scraping, graph/embedding pipeline, LLM summarization, Telegram API, code integration, evaluation workflow, report and pptx proposal |
+| Bertrand Tan Yu-Jin | A0292314J  | News scraping, clustering for media content, evaluation workflow, report and pptx proposal                   |
 
 ---
 
@@ -103,6 +103,7 @@ papermatch/
 │   ├── output_graphs/
 │   └── sim_score_graph_network.txt
 ├── eval/
+│   ├── config.py
 │   ├── eval_summaries.py
 │   ├── query_eval.py
 ├── query/
