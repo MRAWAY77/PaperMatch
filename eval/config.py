@@ -18,7 +18,7 @@ NEWS_PARENT_DIR = None
 CSV_PATH = None
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "mistral-small3.1"
+MODEL = "mistral"
 
 # Input placeholders
 query = ""
