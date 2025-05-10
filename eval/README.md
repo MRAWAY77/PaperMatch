@@ -1,45 +1,77 @@
-# Academic & News Article Evaluation Pipeline
+# 📘 Academic & News Article Evaluation Pipeline
 
-A Python-based pipeline for extracting, processing, summarizing, and evaluating academic papers and news articles using the Claude API and advanced NLP techniques.
-
----
-
-## 🚀 Overview
-
-This end-to-end system includes:
-
-1. **Summary extraction** from existing PDF files
-2. **Title-to-filename matching** using fuzzy logic
-3. **Organized file structuring** for source documents
-4. **AI-generated summaries** via Claude 3.7 Sonnet API
-5. **Comprehensive summary evaluation** using multiple metrics
-
-Supports both **academic papers** and **news articles**, with separate handling logic for each type.
+A comprehensive Python-based pipeline for extracting, summarizing, and evaluating academic papers and news articles using Claude API and advanced NLP techniques.
 
 ---
 
-## 🔧 Features
+## 📦 Overview
 
-* 📄 Multi-format PDF summary extraction
-* 🧠 Intelligent fuzzy matching of titles to filenames
-* 📁 Automated directory structuring (academic/news split)
-* 🤖 Claude-powered summarization with rate limiting
-* 📊 Evaluation with ROUGE, BERTScore, METEOR, coverage & readability
-* 💾 Incremental progress saving to prevent data loss
-* ⚙️ Easily extensible for new sources or metrics
+This project provides an end-to-end pipeline for:
 
----
+1. Extracting summaries from PDF documents  
+2. Matching titles to source files using fuzzy matching  
+3. Organizing matched files into structured directories  
+4. Generating new summaries using Claude 3.5/3.7 Sonnet  
+5. Evaluating AI-generated summaries with multiple metrics  
 
-## 📦 Requirements
-
-* Python 3.8+
-* Claude API key (via Anthropic)
-* \~2GB of free disk space
-* Adequate Claude API quota
+It supports both academic papers and news articles with tailored workflows for each.
 
 ---
 
-## 📁 Project Structure
+## 🚀 Features
+
+- ✅ Multi-format PDF summary extraction  
+- 🔍 Intelligent title-filename fuzzy matching  
+- 📂 Structured folder organization (`Raw_AP`, `Raw_NA`)  
+- 🤖 AI summarization using Claude (Anthropic API)  
+- 📊 Evaluation via ROUGE, BERTScore, METEOR, readability, and more  
+- 🔁 Rate limiting and progress tracking  
+- 🔧 Modular and extensible codebase  
+
+---
+
+## 💾 Download
+
+You can download sample files, reference summaries, and input PDFs here:  
+📁 [Evaluation](https://drive.google.com/drive/folders/1fZOJew1WHRoouukRcZebKN-im7S7k8jj?usp=drive_link)
+
+---
+
+## 🛠 Prerequisites
+
+- Python 3.8+  
+- Anthropic API key (Claude access)  
+- ~2GB free disk space  
+- Sufficient Claude API quota  
+
+---
+
+## ⚙️ Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone <your-repo-url>
+   cd your-repo
+
+````
+
+2. Install dependencies:
+
+   ```bash
+   bash setup.sh
+   ```
+
+3. Configure your API key:
+
+   * Replace `"YOUR_API_KEY_HERE"` in:
+
+     * `ap_api_summarizer_nk.py`
+     * `na_api_summarizer_nk.py`
+
+---
+
+## 🗂 Project Structure
 
 ```
 .
@@ -49,6 +81,7 @@ Supports both **academic papers** and **news articles**, with separate handling 
 ├── requirements.txt
 ├── setup.sh
 ├── summary-evaluation-code.py
+├── README.md
 └── utils/
     ├── ap_api_summarizer_nk.py
     ├── ap_copier.py
@@ -63,103 +96,80 @@ Supports both **academic papers** and **news articles**, with separate handling 
 
 ---
 
-## ⚙️ Installation
+## 📖 Usage Guide
 
-1. Clone the repository
-
-2. Install dependencies:
-
-   ```bash
-   bash setup.sh
-   ```
-
-3. Configure your Claude API key:
-   Replace `YOUR_API_KEY_HERE` in the summarizer scripts or use environment variables for security.
-
----
-
-## 🧪 Usage Guide
-
-### Phase I: Extract Summaries from PDFs
+### 🔹 Phase I: Extract Existing Summaries
 
 ```bash
-# For academic papers
 python simple_academic_extractor.py
-
-# For news articles
 python simple_news_extractor.py
-
-# Optional advanced extraction
+# or
 python document_manager.py
 ```
 
-Output: `academic_paper_summaries_simple.xlsx`, `news_article_summaries_simple.xlsx`
+* Extract summaries from academic/news PDFs
+* Output saved in Excel format
 
 ---
 
-### Phase II: Match Titles to Filenames
+### 🔹 Phase II: Match Titles to Files
 
 ```bash
 python fuzzy_match_program.py
 ```
 
-* Uses fuzzy logic to associate summary titles with actual document filenames
-* Output: `PaperMatch_*.xlsx`
+* Uses fuzzy matching to associate extracted titles with filenames
+* Produces `PaperMatch_*.xlsx` files
 
 ---
 
-### Phase III: Organize Files by Category
+### 🔹 Phase III: Organize Matched Files
 
 ```bash
-# Academic papers
 python ap_copier.py
-
-# News articles
 python na_copier.py
 ```
 
-* Organizes into `Raw_AP/` and `Raw_NA/` folders
+* Copies matched documents to `Raw_AP/` and `Raw_NA/` directories
 
 ---
 
-### Phase IV: Generate AI Summaries
+### 🔹 Phase IV: Generate AI Summaries
 
 ```bash
-# Academic papers
 python ap_api_summarizer_nk.py
-
-# News articles
 python na_api_summarizer_nk.py
 ```
 
-* Includes rate limiting & incremental saving
-* Output: `academic_paper_summaries.xlsx`, `news_summaries.xlsx`
+* Calls Claude API to generate summaries
+* Supports large documents with truncation
+* Saves incremental progress
 
 ---
 
-### Phase V: Evaluate AI Summaries
+### 🔹 Phase V: Evaluate AI Summaries
 
 ```bash
 python summary-evaluation-code.py
 ```
 
-Metrics included:
+* Compares generated summaries with reference summaries
+* Computes:
 
-* ROUGE-1, ROUGE-2, ROUGE-L
-* BERTScore
-* METEOR
-* Keyword overlap
-* Content coverage
-* Readability scores
-* Composite weighted score
-
-Output: `academic_evaluation_results.xlsx`, `news_evaluation_results.xlsx`
+  * ROUGE-1, ROUGE-2, ROUGE-L
+  * BERTScore
+  * METEOR
+  * Keyword and content overlap
+  * Readability metrics
+  * Final weighted evaluation score
 
 ---
 
-## ⚙️ Configuration
+## 🔧 Configuration
 
-### `config.py` or in-script variables
+### Claude API Settings
+
+Edit in `ap_api_summarizer_nk.py` and `na_api_summarizer_nk.py`:
 
 ```python
 API_KEY = "your-anthropic-api-key"
@@ -170,33 +180,43 @@ MAX_SUMMARY_WORDS = 200
 
 ---
 
-## 📂 Input & Output Files
+### Input Files
 
-| **Type**            | **Filename(s)**                                                               |
-| ------------------- | ----------------------------------------------------------------------------- |
-| Source PDFs         | PDF files in root or input folders                                            |
-| Extracted Summaries | `academic_paper_summaries_simple.xlsx` / `news_article_summaries_simple.xlsx` |
-| Matching Index      | `file_index-ap.xlsx` / `file_index-na.xlsx`                                   |
-| Reference Summaries | `Ref_academic_summaries.xlsx` / `Ref_news_summaries.xlsx`                     |
-| Matched File Output | `PaperMatch_*.xlsx`                                                           |
-| AI Summaries        | `academic_paper_summaries.xlsx` / `news_summaries.xlsx`                       |
-| Evaluation Results  | `academic_evaluation_results.xlsx` / `news_evaluation_results.xlsx`           |
+| Type                | Filename                      |
+| ------------------- | ----------------------------- |
+| Academic Index File | `file_index-ap.xlsx`          |
+| News Index File     | `file_index-na.xlsx`          |
+| Reference Summaries | `Ref_academic_summaries.xlsx` |
+|                     | `Ref_news_summaries.xlsx`     |
+
+---
+
+### Output Files
+
+| Description         | Output Filename                        |
+| ------------------- | -------------------------------------- |
+| Extracted summaries | `academic_paper_summaries_simple.xlsx` |
+
+```
+
+| `news_article_summaries_simple.xlsx`    |
+```
+
+\| Matched titles and files    | `PaperMatch_*.xlsx`                      |
+\| AI-generated summaries      | `academic_paper_summaries.xlsx`
+\| `news_summaries.xlsx`                    |
+\| Evaluation results          | `academic_evaluation_results.xlsx`
+\| `news_evaluation_results.xlsx`          |
 
 ---
 
 ## ✅ Best Practices
 
-* 🔐 **Keep API keys secure** – use `.env` files or system env vars
-* 💾 **Backup** all input files and summary outputs regularly
-* 📊 **Check evaluation results** manually for quality assurance
-* 🔄 **Process in batches** to monitor errors and avoid API timeouts
-* 🛠 **Check logs** for script errors and warnings
-
----
-
-## 🛡 Security Notice
-
-> **Never commit your API keys to GitHub or public repositories.**
-> Use environment variables, `.env` files, or secrets managers.
+* 💾 **Backup original files** before processing
+* 📊 **Monitor API usage** to avoid quota exhaustion
+* 🔍 **Manually review samples** for summary quality
+* ⚙️ **Process in small batches** for better control
+* 📁 **Keep error/debug logs** for traceability
+* 🔒 **Never commit API keys** to version control
 
 ---

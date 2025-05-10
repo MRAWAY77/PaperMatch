@@ -67,9 +67,10 @@ papermatch_session.session
 papermatch_session.session-journal
 *.json
 
-# Allow requirements.txt to be tracked
+# Allow files and folders to be tracked as exceptions
 !requirements.txt
 !academic_papers.csv
 !assets/*
 !graph_network/sim_score_graph_network.txt
 !project_report/*
+!eval/README.md
