@@ -7,8 +7,8 @@ from datetime import datetime
 import pandas as pd
 
 # Load CSV containing queries
-input_csv = '/home/mraway/Downloads/evaluation.csv'
-output_csv = '/home/mraway/Downloads/output.csv'
+input_csv = '/home/lenovo3/Downloads/evaluation.csv'
+output_csv = '/home/lenovo3/Downloads/output.csv'
 
 # Initialize your embedding model (must match the one used for clusters!)
 embedding_model = SentenceTransformer('all-MiniLM-L6-v2')  # 384 dim
@@ -187,8 +187,8 @@ def process_query(query: str, results_list: list, query_idx: int):
         })
 
     else:
-        academic_path = f"/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/academics/{classified_topic}_cluster_embeddings.pt"
-        news_path = f"/home/mraway/Desktop/src/NUS_ISS/PaperMatch/Graph_Network/cluster_embeddings/news/{classified_topic}_cluster_embeddings.pt"
+        academic_path = f"/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/academics/{classified_topic}_cluster_embeddings.pt"
+        news_path = f"/home/lenovo3/Desktop/Alvin/NUS_ISS/PaperMatch/graph_network/cluster_embeddings/news/{classified_topic}_cluster_embeddings.pt"
         output_data["academic_embeddings_path"] = academic_path
         output_data["news_embeddings_path"] = news_path
 
@@ -239,9 +239,9 @@ def process_query(query: str, results_list: list, query_idx: int):
         })
 
     # Save JSON log as before
-    os.makedirs("llama3.3_eval_logs", exist_ok=True)
+    os.makedirs("mistral3.1_eval_logs", exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"llama3.3_eval_logs/query{query_idx}_{classified_topic or 'unknown'}_{timestamp}.json"
+    filename = f"mistral3.1_eval_logs/query{query_idx}_{classified_topic or 'unknown'}_{timestamp}.json"
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(output_data, f, indent=2)
 

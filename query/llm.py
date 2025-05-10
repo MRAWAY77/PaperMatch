@@ -147,41 +147,50 @@ def prepare_news_inputs():
     return result
 
 def send_to_llm(input_data):
-    payload = {
-        "model": config.MODEL,
-        "prompt": f"""Summarize the following text by extracting and paraphrasing only the core information and key concepts in a single paragraph, limited to 100 words.
-            Strict formatting rules:
-            - Do not include rhetorical questions.
-            - Remove all conversational or reflective phrases (e.g., "Let's break down...", "Do you want to...").
-            - Do not include any introductory or closing remarks.
-            - Write in a neutral, academic tone.
-            - Present all key methods, terms, and examples clearly and concisely in paragraph form (no bullet points).
-            - Keep the summarize short and limit to 100 words.
+    def query_llm(content):
+        payload = {
+            "model": config.MODEL,
+            "prompt": f"""Summarize the following text by extracting and paraphrasing only the core information and key concepts in a single paragraph, limited to 100 words.
+                Strict formatting rules:
+                - Do not include rhetorical questions.
+                - Remove all conversational or reflective phrases (e.g., "Let's break down...", "Do you want to...").
+                - Do not include any introductory or closing remarks.
+                - Write in a neutral, academic tone.
+                - Present all key methods, terms, and examples clearly and concisely in paragraph form (no bullet points).
+                - Keep the summarize short and limit to 100 words.
 
-            Document:
-            \"\"\"{input_data['content']}\"\"\"
+                Document:
+                \"\"\"{content}\"\"\"
             """
-    }
-    try:
-        response = requests.post(config.OLLAMA_URL, json=payload, stream=True)
-        if not response.ok:
-            return f"ERROR: {response.status_code} - {response.text}"
+        }
+        try:
+            response = requests.post(config.OLLAMA_URL, json=payload, stream=True)
+            if not response.ok:
+                return f"ERROR: {response.status_code} - {response.text}"
 
-        # Ollama streams JSON lines, each line is a JSON object with a "response" key
-        summary_parts = []
-        for line in response.iter_lines(decode_unicode=True):
-            if line:
-                try:
-                    chunk = json.loads(line)
-                    if "response" in chunk:
-                        summary_parts.append(chunk["response"])
-                except json.JSONDecodeError as e:
-                    return f"JSON ERROR: {e}"
+            summary_parts = []
+            for line in response.iter_lines(decode_unicode=True):
+                if line:
+                    try:
+                        chunk = json.loads(line)
+                        if "response" in chunk:
+                            summary_parts.append(chunk["response"])
+                    except json.JSONDecodeError as e:
+                        return f"JSON ERROR: {e}"
 
-        return "".join(summary_parts).strip()
+            return "".join(summary_parts).strip()
 
-    except Exception as e:
-        return f"EXCEPTION: {str(e)}"
+        except Exception as e:
+            return f"EXCEPTION: {str(e)}"
+
+    # First summarization
+    first_summary = query_llm(input_data['content'])
+
+    # Check word count and re-summarize if needed
+    if isinstance(first_summary, str) and len(first_summary.split()) > 100:
+        return query_llm(first_summary)
+
+    return first_summary
 
 def add_background(canvas, doc, img_path):
     canvas.saveState()
@@ -222,25 +231,18 @@ def generate_pdf_report(results, query, topic, pdf_path):
         story.append(Spacer(1, 6))
         story.append(Paragraph("<u><b>Summary:</b></u>", normal_style))
 
-        # Ensure that long summaries wrap within the cell by using Paragraph
+        # Summary as text box
         summary_paragraph = Paragraph(item["summary"], normal_style)
-
-        # Text box for summary using a one-cell table with wrapping text
-        summary_box = Table(
-            [[summary_paragraph]],
-            colWidths=[6.5 * inch]  # Adjust the column width as necessary
-        )
-        
-        summary_box.setStyle(TableStyle([
-            ('BOX', (0, 0), (-1, -1), 0.5, colors.black),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        summary_table = Table([[summary_paragraph]], colWidths=[doc.width])
+        summary_table.setStyle(TableStyle([
+            ('BOX', (0, 0), (-1, -1), 0.75, colors.grey),
             ('LEFTPADDING', (0, 0), (-1, -1), 6),
             ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 6),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-            ('WORDWRAP', (0, 0), (-1, -1), True)  # Allow text to wrap within the cell
+            ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
         ]))
-        story.append(summary_box)
+
+        story.append(summary_table)
         story.append(Spacer(1, 24))
 
     # Build PDF
