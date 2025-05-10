@@ -33,7 +33,7 @@ Backed by insights from academic research on information behavior and media fram
 
 ## 🎥 Demo
 
-[![Watch the Demo](assets/demo_thumbnail.png)](https://youtu.be/XR6L77UH7MY)
+[![Watch the Demo](assets/demo_thumbnail.png)](https://youtu.be/6D-vXmser9Q)
 
 ---
 
