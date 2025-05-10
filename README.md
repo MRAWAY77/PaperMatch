@@ -41,17 +41,30 @@ Backed by insights from academic research on information behavior and media fram
 
 🛠️ Supported OS: Ubuntu 24.04
 
+Got it! Here's the revised segment retaining all your original info and adding a note about more model choices at the end:
+
 ---
 
 ### 🔧 1. Prerequisites
 
-Install Ollama and pull the Llama3 model:
+Install Ollama and pull the Llama3.3 model:
 
 ```bash
 git clone https://github.com/MRAWAY77/PaperMatch.git
 cd PaperMatch/query/
-ollama pull llama3
+ollama pull llama3.3 # depending on what models you want to use
 ```
+
+You can also choose from other available models you’ve already pulled:
+
+* `llama3:latest` (4.7 GB)
+* `qwen3:latest` (5.2 GB)
+* `llama3.3:latest` (42 GB)
+* `qwen3:30b-a3b` (18 GB)
+* `mistral-small3.1:latest` (15 GB)
+* `gemma3:latest` (3.3 GB)
+
+More models are available at [https://ollama.com/search](https://ollama.com/search).
 
 ---
 
