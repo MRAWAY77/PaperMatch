@@ -53,8 +53,7 @@ You can download sample files, reference summaries, and input PDFs here:
    ```bash
    git clone <your-repo-url>
    cd your-repo
-
-````
+   ````
 
 2. Install dependencies:
 
@@ -64,10 +63,10 @@ You can download sample files, reference summaries, and input PDFs here:
 
 3. Configure your API key:
 
-   * Replace `"YOUR_API_KEY_HERE"` in:
+   - Replace `"YOUR_API_KEY_HERE"` in:
 
-     * `ap_api_summarizer_nk.py`
-     * `na_api_summarizer_nk.py`
+     - `ap_api_summarizer_nk.py`
+     - `na_api_summarizer_nk.py`
 
 ---
 
@@ -107,8 +106,8 @@ python simple_news_extractor.py
 python document_manager.py
 ```
 
-* Extract summaries from academic/news PDFs
-* Output saved in Excel format
+- Extract summaries from academic/news PDFs
+- Output saved in Excel format
 
 ---
 
@@ -118,8 +117,8 @@ python document_manager.py
 python fuzzy_match_program.py
 ```
 
-* Uses fuzzy matching to associate extracted titles with filenames
-* Produces `PaperMatch_*.xlsx` files
+- Uses fuzzy matching to associate extracted titles with filenames
+- Produces `PaperMatch_*.xlsx` files
 
 ---
 
@@ -130,7 +129,7 @@ python ap_copier.py
 python na_copier.py
 ```
 
-* Copies matched documents to `Raw_AP/` and `Raw_NA/` directories
+- Copies matched documents to `Raw_AP/` and `Raw_NA/` directories
 
 ---
 
@@ -141,9 +140,9 @@ python ap_api_summarizer_nk.py
 python na_api_summarizer_nk.py
 ```
 
-* Calls Claude API to generate summaries
-* Supports large documents with truncation
-* Saves incremental progress
+- Calls Claude API to generate summaries
+- Supports large documents with truncation
+- Saves incremental progress
 
 ---
 
@@ -153,15 +152,15 @@ python na_api_summarizer_nk.py
 python summary-evaluation-code.py
 ```
 
-* Compares generated summaries with reference summaries
-* Computes:
+- Compares generated summaries with reference summaries
+- Computes:
 
-  * ROUGE-1, ROUGE-2, ROUGE-L
-  * BERTScore
-  * METEOR
-  * Keyword and content overlap
-  * Readability metrics
-  * Final weighted evaluation score
+  - ROUGE-1, ROUGE-2, ROUGE-L
+  - BERTScore
+  - METEOR
+  - Keyword and content overlap
+  - Readability metrics
+  - Final weighted evaluation score
 
 ---
 
@@ -193,30 +192,22 @@ MAX_SUMMARY_WORDS = 200
 
 ### Output Files
 
-| Description         | Output Filename                        |
-| ------------------- | -------------------------------------- |
-| Extracted summaries | `academic_paper_summaries_simple.xlsx` |
-
-```
-
-| `news_article_summaries_simple.xlsx`    |
-```
-
-\| Matched titles and files    | `PaperMatch_*.xlsx`                      |
-\| AI-generated summaries      | `academic_paper_summaries.xlsx`
-\| `news_summaries.xlsx`                    |
-\| Evaluation results          | `academic_evaluation_results.xlsx`
-\| `news_evaluation_results.xlsx`          |
+| Description              | Output Filename                                                                |
+| ------------------------ | ------------------------------------------------------------------------------ |
+| Extracted summaries      | `academic_paper_summaries_simple.xlsx`<br>`news_article_summaries_simple.xlsx` |
+| Matched titles and files | `PaperMatch_*.xlsx`                                                            |
+| AI-generated summaries   | `academic_paper_summaries.xlsx`<br>`news_summaries.xlsx`                       |
+| Evaluation results       | `academic_evaluation_results.xlsx`<br>`news_evaluation_results.xlsx`           |
 
 ---
 
 ## ✅ Best Practices
 
-* 💾 **Backup original files** before processing
-* 📊 **Monitor API usage** to avoid quota exhaustion
-* 🔍 **Manually review samples** for summary quality
-* ⚙️ **Process in small batches** for better control
-* 📁 **Keep error/debug logs** for traceability
-* 🔒 **Never commit API keys** to version control
+- 💾 **Backup original files** before processing
+- 📊 **Monitor API usage** to avoid quota exhaustion
+- 🔍 **Manually review samples** for summary quality
+- ⚙️ **Process in small batches** for better control
+- 📁 **Keep error/debug logs** for traceability
+- 🔒 **Never commit API keys** to version control
 
 ---
