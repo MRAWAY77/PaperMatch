@@ -181,12 +181,11 @@ MAX_SUMMARY_WORDS = 200
 
 ### Input Files
 
-| Type                | Filename                      |
-| ------------------- | ----------------------------- |
-| Academic Index File | `file_index-ap.xlsx`          |
-| News Index File     | `file_index-na.xlsx`          |
-| Reference Summaries | `Ref_academic_summaries.xlsx` |
-|                     | `Ref_news_summaries.xlsx`     |
+| Type                | Filename                                                        |
+| ------------------- | --------------------------------------------------------------- |
+| Academic Index File | `file_index-ap.xlsx`                                            |
+| News Index File     | `file_index-na.xlsx`                                            |
+| Reference Summaries | `Ref_academic_summaries.xlsx`<br> `Ref_news_summaries.xlsx`     |
 
 ---
 
