@@ -74,3 +74,4 @@ papermatch_session.session-journal
 !graph_network/sim_score_graph_network.txt
 !project_report/*
 !eval/README.md
+!scrapers/news_webscraper/README.md
