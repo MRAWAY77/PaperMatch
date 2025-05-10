@@ -1,0 +1,15 @@
+pandas
+numpy
+nltk
+textstat
+anthropic
+PyPDF2
+pdfplumber
+tqdm
+openpyxl
+rouge-score
+bert-score
+scikit-learn
+thefuzz
+openai
+torch
