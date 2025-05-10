@@ -224,7 +224,7 @@ def main():
     start_time = datetime.now()
     print(f"\nStart time: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
     
-    json_path = glob2.glob("mistral3.1_eval_logs/*.json")
+    json_path = glob2.glob("mistral_eval_logs/*.json")
     # Sort the list using the extracted number
     sorted_paths = sorted(json_path, key=extract_query_number)
     
@@ -288,7 +288,7 @@ def main():
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_filename = f"query{query_idx}_{config.TOPIC}_{timestamp}.pdf"
-        output_pdf = os.path.join("mistral3.1_eval_logs", output_filename)
+        output_pdf = os.path.join("mistral_eval_logs", output_filename)
         generate_pdf_report(results, config.query, config.TOPIC, output_pdf)
 
         end_time = datetime.now()
