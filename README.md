@@ -127,8 +127,19 @@ papermatch/
 │   ├── eval_logs/
 │   └── ...
 ├── scrapers/
-│   ├── paperwithcode_chrome.py
-│   └── paperwithcode_firefox.py
+├── news_webscraper/
+│   ├── Arachne.py
+│   ├── assets/
+│   │   ├── arachne_interface_01.jpg
+│   │   ├── arachne_interface_02.jpg
+│   │   └── arachne_interface_03.jpg
+│   ├── cluster_organizer.py
+│   ├── MetaCluster-I.py
+│   ├── README.md
+│   ├── Tapestry-Ik.py
+│   └── Weaver.py
+├── paperwithcode_chrome.py
+└── paperwithcode_firefox.py
 ├── utils/
 │   ├── categorise_papers.py
 │   ├── helper.ipynb

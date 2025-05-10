@@ -4,9 +4,56 @@ This comprehensive Python-based system includes multiple tools for scraping, ext
 
 ## **Tools Overview**
 
-### 1. **Arachne - News Article Scraper and Analyzer**
+### 🕷️ **1. Arachne - News Article Scraper and Analyzer**
 
-A powerful application that scrapes news articles from major news sources and analyzes them for crime-related content. It offers a user-friendly GUI and advanced metadata extraction capabilities.
+Arachne is a feature-rich application that scrapes news articles from selected news outlets and performs in-depth metadata extraction and relevance analysis. It is particularly useful for tracking crime-related or misinformation-related content across sources like **BBC**, **CNN**, **Straits Times**, and **CNA**.
+
+#### 📸 **Interface Showcase**
+
+##### 🔹 Interface & Topic Entry
+
+The screenshot below shows the main Arachne GUI. The user has selected **CNN** as the news site and keyed in the topic **"Misinformation"** under **Mode 1 (Site Search)**. This initiates a structured scraping session focused on identifying articles related to the given theme.
+
+![Arachne Interface – Topic Entry](assets/arachne_interface_01.jpg)
+
+##### 🔹 Initial Scraping Results
+
+The second interface screen displays the **initial output** after scraping. It includes the retrieved article headlines, URLs, and a preliminary assessment of their relevance.
+
+![Arachne Initial Results](assets/arachne_interface_02.jpg)
+
+##### 🔹 Enriched Metadata with Relevance Score
+
+The third image demonstrates the **metadata enrichment** step. Each article is analyzed for keywords and theme alignment, and a **Relevance Score** (ranging from 1 to 5) is assigned. Other extracted metadata include the journalist's name, publication date, news category, and URL.
+
+![Arachne Metadata Output](assets/arachne_interface_03.jpg)
+
+### 🔍 **Key Features**
+
+* **Dual-Mode Scraping**:
+
+  * **Mode 1 (Keyword Search)**: Scrape articles by keyword or theme.
+  * **Mode 2 (URL List)**: Extract metadata from manually supplied article URLs.
+
+* **Automatic Categorization**:
+
+  * Identifies crime-related themes such as *Cybercrime*, *Organized Crime*, *Drug Offenses*, and more.
+
+* **Relevance Scoring**:
+
+  * Each article is scored (1–5) based on alignment with the user-provided theme.
+
+* **Metadata Extraction**:
+
+  * Retrieves structured details including publication date, journalist, topic, source, and crime category.
+
+* **Excel Export**:
+
+  * Processed metadata can be saved as a spreadsheet for further analysis.
+
+* **Theme Context Tracking**:
+
+  * Each scraping session tracks the associated theme, making it easier to group and analyze similar articles.
 
 ### 2. **Tapestry - Article Content Extraction Tool**
 
