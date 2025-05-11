@@ -86,7 +86,8 @@ Next, download and extract the required folders into the project root directory:
 Download and unzip:
 
 * datasets.zip
-* cluster\_embeddings.zip
+* cluster_embeddings.zip
+* EVALUATION/ (Only needed for reviewing the evaluation artifacts in detail)
 
 Make sure the extracted folders are placed according to the directory structure shown in Section 3.
 
