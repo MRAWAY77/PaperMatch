@@ -72,6 +72,7 @@ papermatch_session.session-journal
 !academic_papers.csv
 !assets/*
 !graph_network/sim_score_graph_network.txt
+!graph_network/charts/*
 !project_report/*
 !eval/README.md
 !scrapers/news_webscraper/README.md
