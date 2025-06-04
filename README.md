@@ -41,10 +41,6 @@ Backed by insights from academic research on information behavior and media fram
 
 🛠️ Supported OS: Ubuntu 24.04
 
-Got it! Here's the revised segment retaining all your original info and adding a note about more model choices at the end:
-
----
-
 ### 🔧 1. Prerequisites
 
 Install Ollama and pull the Llama3.3 model:
